@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Intermediate</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: #0f0f1f;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    overflow-x: hidden;
+}
+
+.quiz-container {
+    background: rgba(202, 80, 46, 0.2);
+    width: 100%;
+    max-width: 800px;
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(227, 79, 38, 0.3);
+    position: relative;
+    margin: 1rem;
+    animation: containerEntry 0.8s ease-out;
+}
+
+@keyframes containerEntry {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.header-icon-html {
+    font-size: 2.5rem;
+    color: #e34f26;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 4px 6px rgba(227, 79, 38, 0.3));
+}
+
+.header h1 {
+    color: #e34f26;
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(227, 79, 38, 0.3);
+    border-radius: 4px;
+    margin: 1rem 0;
+}
+
+.progress {
+    height: 100%;
+    background: #e34f26;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.question-box {
+    margin: 1.5rem 0;
+}
+
+.question-number {
+    color: #e34f26;
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+    animation: slideInLeft 0.5s ease-out;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.question-text {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.4;
+    word-break: break-word;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.options-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.option {
+    background: rgba(177, 72, 43, 0.235);
+    padding: 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    display: flex;
+    align-items: center;
+    animation: optionEntry 0.5s ease-out;
+    animation-fill-mode: backwards;
+    position: relative;
+    overflow: hidden;
+}
+
+@keyframes optionEntry {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.option::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background: radial-gradient(circle, rgba(198, 77, 43, 0.63), transparent);
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.5s ease-out;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.option.selected::after {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.option:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(227, 79, 38, 0.3);
+    border-color: #e34f26;
+}
+
+.option-number {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #e34f26;
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.8rem;
+    flex-shrink: 0;
+    font-size: 0.9rem;
+}
+
+.option-text {
+    word-break: break-word;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.controls {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn {
+    background: #e34f26;
+    color: #000;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    animation: btnEntry 0.6s ease-out 0.2s backwards;
+}
+
+@keyframes btnEntry {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.btn:hover {
+    background: #e34f26;
+    transform: translateY(-2px);
+}
+
+.result-container {
+    text-align: center;
+    padding: 1.5rem;
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.result-score {
+    font-size: 2.5rem;
+    color: #e34f26;
+    margin: 1.5rem 0;
+    animation: scaleUp 0.5s ease-out 0.3s backwards;
+}
+
+@keyframes scaleUp {
+    from {
+        transform: scale(0);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+.result-text {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    animation: slideIn 0.5s ease-out 0.6s backwards;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@media (max-width: 480px) {
+    .quiz-container {
+        padding: 1rem;
+    }
+
+    .header h1 {
+        font-size: 1.6rem;
+    }
+
+    .question-text {
+        font-size: 1.1rem;
+    }
+
+    .option {
+        padding: 0.8rem;
+    }
+
+    .option-number {
+        width: 24px;
+        height: 24px;
+        font-size: 0.8rem;
+    }
+
+    .option-text {
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.9rem;
+    }
+
+    .result-score {
+        font-size: 2rem;
+    }
+
+    .result-text {
+        font-size: 1rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .options-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+    </style>
+</head>
+
+<body>
+    <div class="quiz-container">
+        <div class="header">
+            <i class="fab fa-html5 header-icon-html"></i>
+            <h1>Intermediate</h1>
+            <div class="progress-bar">
+                <div class="progress" style="width: 10%"></div>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <div class="question-number">Question <span id="current-question">1</span>/<span
+                    id="total-questions"></span></div>
+            <div class="question-text" id="question-text"></div>
+            <div class="options-grid" id="options-container"></div>
+        </div>
+
+        <div class="controls">
+            <button class="btn" id="next-btn" onclick="nextQuestion()">Next <i class="fas fa-arrow-right"></i></button>
+        </div>
+    </div>
+
+    <div class="quiz-container result-container" id="result-box" style="display: none;">
+        <h1>Quiz Completed! 🎉</h1>
+        <div class="result-score" id="final-score"></div>
+        <p class="result-text" id="result-text"></p>
+        <button class="btn" onclick="restartQuiz()"><i class="fas fa-redo"></i> Try Again</button>
+    </div>
+
+    <script>
+        // Add questions here - no limit!
+        const questions = [
+        {
+        "question": "Which attribute is used to specify the URL of an image?",
+        "options": ["src", "href", "alt", "link"],
+        "answer": "src"
+    },
+    {
+        "question": "Which HTML tag is used to define an unordered list?",
+        "options": ["&lt;ul&gt;", "&lt;ol&gt;", "&lt;li&gt;", "&lt;dl&gt;"],
+        "answer": "&lt;ul&gt;"
+    },
+    {
+        "question": "Which tag is used to define a table header?",
+        "options": ["&lt;th&gt;", "&lt;tr&gt;", "&lt;td&gt;", "&lt;thead&gt;"],
+        "answer": "&lt;th&gt;"
+    },
+    {
+        "question": "Which attribute is used to define inline styles?",
+        "options": ["style", "class", "id", "inline"],
+        "answer": "style"
+    },
+    {
+        "question": "Which HTML tag is used to define an interactive field in a form?",
+        "options": ["&lt;input&gt;", "&lt;form&gt;", "&lt;select&gt;", "&lt;button&gt;"],
+        "answer": "&lt;input&gt;"
+    },
+    {
+        "question": "What is the correct HTML element for playing audio files?",
+        "options": ["&lt;audio&gt;", "&lt;sound&gt;", "&lt;music&gt;", "&lt;play&gt;"],
+        "answer": "&lt;audio&gt;"
+    },
+    {
+        "question": "Which HTML element is used to define important text?",
+        "options": ["&lt;strong&gt;", "&lt;important&gt;", "&lt;b&gt;", "&lt;i&gt;"],
+        "answer": "&lt;strong&gt;"
+    },
+    {
+        "question": "Which attribute is used to open a link in a new tab?",
+        "options": ["target", "newtab", "href", "window"],
+        "answer": "target"
+    },
+    {
+        "question": "Which HTML tag is used to define a section in a document?",
+        "options": ["&lt;section&gt;", "&lt;article&gt;", "&lt;div&gt;", "&lt;header&gt;"],
+        "answer": "&lt;section&gt;"
+    },
+    {
+        "question": "Which attribute is used to specify an alternate text for an image?",
+        "options": ["alt", "title", "src", "text"],
+        "answer": "alt"
+    },
+    {
+        "question": "Which HTML element is used to define a hyperlink?",
+        "options": ["&lt;a&gt;", "&lt;link&gt;", "&lt;href&gt;", "&lt;nav&gt;"],
+        "answer": "&lt;a&gt;"
+    },
+    {
+        "question": "Which HTML tag is used to define a multi-line text input control?",
+        "options": ["&lt;textarea&gt;", "&lt;input&gt;", "&lt;select&gt;", "&lt;form&gt;"],
+        "answer": "&lt;textarea&gt;"
+    },
+    {
+        "question": "Which HTML element is used to specify a footer for a document or section?",
+        "options": ["&lt;footer&gt;", "&lt;bottom&gt;", "&lt;end&gt;", "&lt;div&gt;"],
+        "answer": "&lt;footer&gt;"
+    },
+    {
+        "question": "Which attribute is used to specify the character encoding for the HTML document?",
+        "options": ["charset", "encoding", "char", "code"],
+        "answer": "charset"
+    },
+    {
+        "question": "Which HTML tag is used to define emphasized text?",
+        "options": ["&lt;em&gt;", "&lt;strong&gt;", "&lt;b&gt;", "&lt;i&gt;"],
+        "answer": "&lt;em&gt;"
+    },
+    {
+        "question": "Which attribute is used to specify a unique identifier for an HTML element?",
+        "options": ["id", "class", "name", "key"],
+        "answer": "id"
+    },
+    {
+        "question": "Which HTML element is used to define a paragraph?",
+        "options": ["&lt;p&gt;", "&lt;paragraph&gt;", "&lt;pg&gt;", "&lt;text&gt;"],
+        "answer": "&lt;p&gt;"
+    },
+    {
+        "question": "Which HTML attribute is used to define inline styles for an element?",
+        "options": ["style", "class", "id", "inline"],
+        "answer": "style"
+    },
+    {
+        "question": "Which HTML tag is used to define a table row?",
+        "options": ["&lt;tr&gt;", "&lt;td&gt;", "&lt;th&gt;", "&lt;table&gt;"],
+        "answer": "&lt;tr&gt;"
+    },
+    {
+        "question": "Which HTML element is used to define a client-side script?",
+        "options": ["&lt;script&gt;", "&lt;code&gt;", "&lt;client&gt;", "&lt;js&gt;"],
+        "answer": "&lt;script&gt;"
+    },
+    {
+        "question": "Which attribute is used to specify the relationship between the current document and an external resource?",
+        "options": ["rel", "href", "type", "link"],
+        "answer": "rel"
+    },
+    {
+        "question": "Which HTML element is used to define a navigation list?",
+        "options": ["&lt;nav&gt;", "&lt;list&gt;", "&lt;ul&gt;", "&lt;ol&gt;"],
+        "answer": "&lt;nav&gt;"
+    },
+    {
+        "question": "Which HTML tag is used to define a caption for a table?",
+        "options": ["&lt;caption&gt;", "&lt;title&gt;", "&lt;header&gt;", "&lt;legend&gt;"],
+        "answer": "&lt;caption&gt;"
+    },
+    {
+        "question": "Which HTML attribute is used to specify a URL for form submission?",
+        "options": ["action", "method", "formurl", "submit"],
+        "answer": "action"
+    },
+    {
+        "question": "Which HTML tag is used to define a section that is quoted from another source?",
+        "options": ["&lt;blockquote&gt;", "&lt;q&gt;", "&lt;quote&gt;", "&lt;cite&gt;"],
+        "answer": "&lt;blockquote&gt;"
+    },
+    {
+        "question": "Which HTML element is used to define a dropdown list?",
+        "options": ["&lt;select&gt;", "&lt;dropdown&gt;", "&lt;option&gt;", "&lt;list&gt;"],
+        "answer": "&lt;select&gt;"
+    },
+    {
+        "question": "Which attribute is used to define a title for an HTML element?",
+        "options": ["title", "name", "id", "class"],
+        "answer": "title"
+    },
+    {
+        "question": "Which HTML element is used to define a container for external content?",
+        "options": ["&lt;iframe&gt;", "&lt;object&gt;", "&lt;embed&gt;", "&lt;frame&gt;"],
+        "answer": "&lt;iframe&gt;"
+    },
+    {
+        "question": "Which HTML tag is used to define a group of options in a dropdown list?",
+        "options": ["&lt;optgroup&gt;", "&lt;option&gt;", "&lt;select&gt;", "&lt;list&gt;"],
+        "answer": "&lt;optgroup&gt;"
+    },
+    {
+        "question": "Which attribute is used to specify the language of the HTML document?",
+        "options": ["lang", "xml:lang", "language", "doclang"],
+        "answer": "lang"
+    },
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let selectedOption = null;
+
+        // Initialize total questions display
+        document.getElementById('total-questions').textContent = questions.length;
+
+        function displayQuestion() {
+            const question = questions[currentQuestion];
+            document.getElementById('question-text').textContent = question.question;
+            document.getElementById('current-question').textContent = currentQuestion + 1;
+            document.querySelector('.progress').style.width =
+                `${((currentQuestion + 1) / questions.length) * 100}%`;
+
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.style.animationDelay = `${index * 0.1}s`;
+                optionElement.innerHTML = `
+                    <div class="option-number">${index + 1}</div>
+                    <div class="option-text">${option}</div>
+                `;
+                optionElement.onclick = () => selectOption(option, optionElement);
+                optionsContainer.appendChild(optionElement);
+            });
+
+            document.getElementById('next-btn').style.display = 'none';
+        }
+
+        function selectOption(selected, element) {
+            if (selectedOption) return;
+
+            selectedOption = selected;
+            element.classList.add('selected');
+            document.getElementById('next-btn').style.display = 'block';
+        }
+
+        function nextQuestion() {
+            const correctAnswer = questions[currentQuestion].answer;
+            if (selectedOption === correctAnswer) score++;
+
+            selectedOption = null;
+            currentQuestion++;
+
+            if (currentQuestion < questions.length) {
+                displayQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.querySelector('.quiz-container').style.display = 'none';
+            document.getElementById('result-box').style.display = 'block';
+            document.getElementById('final-score').textContent = `${score}/${questions.length}`;
+
+            const resultText = document.getElementById('result-text');
+            const percentage = (score / questions.length) * 100;
+
+            if (percentage === 100) {
+                resultText.textContent = "Perfect Score! 🏆";
+            } else if (percentage >= 80) {
+                resultText.textContent = "Excellent Work! 💪";
+            } else if (percentage >= 60) {
+                resultText.textContent = "Good Effort! 📚";
+            } else {
+                resultText.textContent = "Keep Practicing! 🚀";
+            }
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            selectedOption = null;
+            document.querySelector('.quiz-container').style.display = 'block';
+            document.getElementById('result-box').style.display = 'none';
+            displayQuestion();
+        }
+
+        // Start the quiz
+        displayQuestion();
+    </script>
+</body>
+
+</html>

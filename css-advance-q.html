@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Advance</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: #0f0f1f;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    overflow-x: hidden;
+}
+
+.quiz-container {
+    background: #2c57bd4f;
+    width: 100%;
+    max-width: 800px;
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 0 30px #2856c073;
+    position: relative;
+    animation: containerEntry 0.8s ease-out;
+}
+
+@keyframes containerEntry {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.header-icon-css {
+    font-size: 2.5rem;
+    color: #2965f1;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 4px 6px #2856c073);
+}
+
+.header h1 {
+    color: #2965f1;
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background: #2856c073;
+    border-radius: 4px;
+    margin: 1rem 0;
+}
+
+.progress {
+    height: 100%;
+    background: #2965f1;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.question-box {
+    margin: 1.5rem 0;
+}
+
+.question-number {
+    color: #2965f1;
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+    animation: slideInLeft 0.5s ease-out;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.question-text {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.4;
+    word-break: break-word;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.options-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.option {
+    background: #2856c073;
+    padding: 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    display: flex;
+    align-items: center;
+    animation: optionEntry 0.5s ease-out;
+    animation-fill-mode: backwards;
+    position: relative;
+    overflow: hidden;
+}
+
+@keyframes optionEntry {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.option::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background: radial-gradient(circle, #2152c4bb, transparent);
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.5s ease-out;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.option.selected::after {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.option:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(40, 86, 192, 0.3);
+    border-color: #2965f1;
+}
+
+.option-number {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #2965f1;
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.8rem;
+    flex-shrink: 0;
+    font-size: 0.9rem;
+}
+
+.option-text {
+    word-break: break-word;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.controls {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn {
+    background: #2965f1;
+    color: #000;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    animation: btnEntry 0.6s ease-out 0.2s backwards;
+}
+
+@keyframes btnEntry {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.btn:hover {
+    background: #2965f1;
+    transform: translateY(-2px);
+}
+
+.result-container {
+    text-align: center;
+    padding: 1.5rem;
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.result-score {
+    font-size: 2.5rem;
+    color: #2965f1;
+    margin: 1.5rem 0;
+    animation: scaleUp 0.5s ease-out 0.3s backwards;
+}
+
+@keyframes scaleUp {
+    from {
+        transform: scale(0);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+.result-text {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    animation: slideIn 0.5s ease-out 0.6s backwards;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@media (max-width: 480px) {
+    .quiz-container {
+        padding: 1rem;
+    }
+
+    .header h1 {
+        font-size: 1.6rem;
+    }
+
+    .question-text {
+        font-size: 1.1rem;
+    }
+
+    .option {
+        padding: 0.8rem;
+    }
+
+    .option-number {
+        width: 24px;
+        height: 24px;
+        font-size: 0.8rem;
+    }
+
+    .option-text {
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.9rem;
+    }
+
+    .result-score {
+        font-size: 2rem;
+    }
+
+    .result-text {
+        font-size: 1rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .options-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+    </style>
+</head>
+
+<body>
+    <div class="quiz-container">
+        <div class="header">
+            <i class="fab fa-css3 header-icon-css"></i>
+            <h1>Advance</h1>
+            <div class="progress-bar">
+                <div class="progress" style="width: 10%"></div>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <div class="question-number">Question <span id="current-question">1</span>/<span
+                    id="total-questions"></span></div>
+            <div class="question-text" id="question-text"></div>
+            <div class="options-grid" id="options-container"></div>
+        </div>
+
+        <div class="controls">
+            <button class="btn" id="next-btn" onclick="nextQuestion()">Next <i class="fas fa-arrow-right"></i></button>
+        </div>
+    </div>
+
+    <div class="quiz-container result-container" id="result-box" style="display: none;">
+        <h1>Quiz Completed! 🎉</h1>
+        <div class="result-score" id="final-score"></div>
+        <p class="result-text" id="result-text"></p>
+        <button class="btn" onclick="restartQuiz()"><i class="fas fa-redo"></i> Try Again</button>
+    </div>
+
+    <script>
+        // Add questions here - no limit!
+        const questions = [
+        {
+        "question": "Which CSS function is used to apply a linear gradient background?",
+        "options": ["linear-gradient()", "gradient()", "background-gradient()", "linear-bg()"],
+        "answer": "linear-gradient()"
+    },
+    {
+        "question": "Which CSS function is used to apply a radial gradient background?",
+        "options": ["radial-gradient()", "gradient()", "background-gradient()", "radial-bg()"],
+        "answer": "radial-gradient()"
+    },
+    {
+        "question": "Which CSS property is used to set the grid-template-rows and grid-template-columns properties in shorthand?",
+        "options": ["grid-template", "grid", "grid-shorthand", "grid-layout"],
+        "answer": "grid-template"
+    },
+    {
+        "question": "Which CSS property is used to set the order of an item within a grid container?",
+        "options": ["grid-row", "grid-column", "order", "grid-order"],
+        "answer": "order"
+    },
+    {
+        "question": "Which CSS property is used to set the flex-basis of a flex item?",
+        "options": ["flex-basis", "flex", "basis", "flex-item"],
+        "answer": "flex-basis"
+    },
+    {
+        "question": "Which CSS property is used to set the flex-grow of a flex item?",
+        "options": ["flex-grow", "flex", "grow", "flex-item"],
+        "answer": "flex-grow"
+    },
+    {
+        "question": "Which CSS property is used to set the flex-shrink of a flex item?",
+        "options": ["flex-shrink", "flex", "shrink", "flex-item"],
+        "answer": "flex-shrink"
+    },
+    {
+        "question": "Which CSS property is used to apply a transformation to an element?",
+        "options": ["transform", "translate", "rotate", "scale"],
+        "answer": "transform"
+    },
+    {
+        "question": "Which CSS property is used to set the perspective-origin of a 3D-transformed element?",
+        "options": ["perspective-origin", "transform-origin", "origin", "perspective"],
+        "answer": "perspective-origin"
+    },
+    {
+        "question": "Which CSS property is used to apply a filter effect to an element?",
+        "options": ["filter", "effect", "transform", "filter-effect"],
+        "answer": "filter"
+    },
+    {
+        "question": "Which CSS property is used to set the blend mode for an element?",
+        "options": ["mix-blend-mode", "blend-mode", "mix-mode", "mode"],
+        "answer": "mix-blend-mode"
+    },
+    {
+        "question": "Which CSS property is used to set the font-variant of an element?",
+        "options": ["font-variant", "font-style", "font-weight", "font"],
+        "answer": "font-variant"
+    },
+    {
+        "question": "Which CSS property is used to set the writing mode of an element?",
+        "options": ["writing-mode", "text-mode", "mode", "writing-style"],
+        "answer": "writing-mode"
+    },
+    {
+        "question": "Which CSS property is used to set the line-height of an element?",
+        "options": ["line-height", "height", "line", "text-height"],
+        "answer": "line-height"
+    },
+    {
+        "question": "Which CSS property is used to set the grid-auto-rows property of a grid container?",
+        "options": ["grid-auto-rows", "grid-rows", "grid-auto", "auto-rows"],
+        "answer": "grid-auto-rows"
+    },
+    {
+        "question": "Which CSS property is used to set the grid-auto-columns property of a grid container?",
+        "options": ["grid-auto-columns", "grid-columns", "grid-auto", "auto-columns"],
+        "answer": "grid-auto-columns"
+    },
+    {
+        "question": "Which CSS property is used to set the grid-auto-flow property of a grid container?",
+        "options": ["grid-auto-flow", "grid-flow", "flow", "auto-flow"],
+        "answer": "grid-auto-flow"
+    },
+    {
+        "question": "Which CSS property is used to set the grid-template-rows property of a grid container?",
+        "options": ["grid-template-rows", "grid-rows", "template-rows", "grid-template"],
+        "answer": "grid-template-rows"
+    },
+    {
+        "question": "Which CSS property is used to set the grid-template-columns property of a grid container?",
+        "options": ["grid-template-columns", "grid-columns", "template-columns", "grid-template"],
+        "answer": "grid-template-columns"
+    },
+    {
+        "question": "Which CSS property is used to set the grid-template-areas property of a grid container?",
+        "options": ["grid-template-areas", "grid-areas", "template-areas", "grid-template"],
+        "answer": "grid-template-areas"
+    },
+    {
+        "question": "Which CSS property is used to set the grid-column property of a grid item?",
+        "options": ["grid-column", "grid-column-start", "grid-column-end", "grid"],
+        "answer": "grid-column"
+    },
+    {
+        "question": "Which CSS property is used to set the grid-row property of a grid item?",
+        "options": ["grid-row", "grid-row-start", "grid-row-end", "grid"],
+        "answer": "grid-row"
+    },
+    {
+        "question": "Which CSS property is used to set the gap between rows in a grid layout?",
+        "options": ["grid-row-gap", "row-gap", "gap", "grid-gap"],
+        "answer": "grid-row-gap"
+    },
+    {
+        "question": "Which CSS property is used to set the gap between columns in a grid layout?",
+        "options": ["grid-column-gap", "column-gap", "gap", "grid-gap"],
+        "answer": "grid-column-gap"
+    },
+    {
+        "question": "Which CSS property is used to set the grid-area property of a grid item?",
+        "options": ["grid-area", "area", "grid-item", "grid"],
+        "answer": "grid-area"
+    },
+    {
+        "question": "Which CSS property is used to set the transform-style property of an element?",
+        "options": ["transform-style", "style", "transform", "transform-property"],
+        "answer": "transform-style"
+    },
+    {
+        "question": "Which CSS property is used to set the transition property of an element?",
+        "options": ["transition-property", "transition", "property", "transition-style"],
+        "answer": "transition-property"
+    },
+    {
+        "question": "Which CSS property is used to set the transition-duration property of an element?",
+        "options": ["transition-duration", "transition", "duration", "transition-time"],
+        "answer": "transition-duration"
+    },
+    {
+        "question": "Which CSS property is used to set the transition-timing-function property of an element?",
+        "options": ["transition-timing-function", "timing-function", "transition-timing", "transition-function"],
+        "answer": "transition-timing-function"
+    },
+    {
+        "question": "Which CSS property is used to set the transition-delay property of an element?",
+        "options": ["transition-delay", "delay", "transition", "transition-time"],
+        "answer": "transition-delay"
+    }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let selectedOption = null;
+
+        // Initialize total questions display
+        document.getElementById('total-questions').textContent = questions.length;
+
+        function displayQuestion() {
+            const question = questions[currentQuestion];
+            document.getElementById('question-text').textContent = question.question;
+            document.getElementById('current-question').textContent = currentQuestion + 1;
+            document.querySelector('.progress').style.width =
+                `${((currentQuestion + 1) / questions.length) * 100}%`;
+
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.style.animationDelay = `${index * 0.1}s`;
+                optionElement.innerHTML = `
+                    <div class="option-number">${index + 1}</div>
+                    <div class="option-text">${option}</div>
+                `;
+                optionElement.onclick = () => selectOption(option, optionElement);
+                optionsContainer.appendChild(optionElement);
+            });
+
+            document.getElementById('next-btn').style.display = 'none';
+        }
+
+        function selectOption(selected, element) {
+            if (selectedOption) return;
+
+            selectedOption = selected;
+            element.classList.add('selected');
+            document.getElementById('next-btn').style.display = 'block';
+        }
+
+        function nextQuestion() {
+            const correctAnswer = questions[currentQuestion].answer;
+            if (selectedOption === correctAnswer) score++;
+
+            selectedOption = null;
+            currentQuestion++;
+
+            if (currentQuestion < questions.length) {
+                displayQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.querySelector('.quiz-container').style.display = 'none';
+            document.getElementById('result-box').style.display = 'block';
+            document.getElementById('final-score').textContent = `${score}/${questions.length}`;
+
+            const resultText = document.getElementById('result-text');
+            const percentage = (score / questions.length) * 100;
+
+            if (percentage === 100) {
+                resultText.textContent = "Perfect Score! 🏆";
+            } else if (percentage >= 80) {
+                resultText.textContent = "Excellent Work! 💪";
+            } else if (percentage >= 60) {
+                resultText.textContent = "Good Effort! 📚";
+            } else {
+                resultText.textContent = "Keep Practicing! 🚀";
+            }
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            selectedOption = null;
+            document.querySelector('.quiz-container').style.display = 'block';
+            document.getElementById('result-box').style.display = 'none';
+            displayQuestion();
+        }
+
+        // Start the quiz
+        displayQuestion();
+    </script>
+</body>
+
+</html>

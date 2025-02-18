@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Language</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            overflow: hidden; /* Prevent scrollbars */
+        }
+
+        .language-container {
+            text-align: center;
+            max-width: 1200px; /* Limit max width for desktop */
+            width: 100%;
+            padding: 20px; /* Adjusted padding */
+        }
+
+        .language-heading {
+            color: #fff;
+            font-size: 2rem; /* Adjusted font size for desktop */
+            margin-bottom: 30px; /* Adjusted margin */
+            opacity: 0;
+            transform: translateY(-30px);
+            animation: fadeInSlide 0.8s forwards;
+            text-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+
+        .language-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Wider columns for desktop */
+            gap: 20px; /* Adjusted gap */
+            padding: 10px; /* Adjusted padding */
+        }
+
+        .language-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px; /* Adjusted padding */
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transform: translateY(50px);
+            animation: cardEntry 0.8s forwards;
+            aspect-ratio: 1 / 1; /* Ensure boxes are square */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .language-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .language-card img {
+            width: 80px; /* Adjusted image size */
+            height: 80px; /* Adjusted image size */
+            margin-bottom: 15px; /* Adjusted margin */
+            transition: transform 0.3s ease;
+        }
+
+        .language-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .lang-name {
+            color: #fff;
+            font-size: 1.2rem; /* Adjusted font size for desktop */
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        
+
+        @keyframes fadeInSlide {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes cardEntry {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .language-heading {
+                font-size: 1.8rem; /* Adjusted font size for tablets */
+            }
+
+            .language-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Adjusted for tablets */
+                gap: 15px; /* Adjusted gap */
+            }
+
+            .language-card {
+                padding: 20px; /* Adjusted padding */
+            }
+
+            .language-card img {
+                width: 60px; /* Adjusted image size */
+                height: 60px; /* Adjusted image size */
+            }
+
+            .lang-name {
+                font-size: 1rem; /* Adjusted font size */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .language-heading {
+                font-size: 1.5rem; /* Further reduced font size for very small screens */
+            }
+
+            .language-grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Adjusted for very small screens */
+                gap: 10px; /* Further reduced gap */
+            }
+
+            .language-card {
+                padding: 15px; /* Further reduced padding */
+            }
+
+            .language-card img {
+                width: 50px; /* Further reduced image size */
+                height: 50px; /* Further reduced image size */
+            }
+
+            .lang-name {
+                font-size: 0.9rem; /* Further reduced font size */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="language-container">
+        <h2 class="language-heading">Choose Your Language</h2>
+        <div class="language-grid">
+            <div class="language-card html" data-lang="html">
+                <img src="https://img.icons8.com/?size=100&id=20909&format=png&color=000000" alt="HTML icon">
+                <span class="lang-name">HTML</span>
+            </div>
+            <div class="language-card css" data-lang="css">
+                <img src="https://img.icons8.com/?size=100&id=21278&format=png&color=000000" alt="CSS logo">
+                <span class="lang-name">CSS</span>
+            </div>
+            <div class="language-card js" data-lang="javascript">
+                <img src="https://img.icons8.com/?size=100&id=108784&format=png&color=000000" alt="JS logo">
+                <span class="lang-name">JavaScript</span>
+            </div>
+            <div class="language-card react" data-lang="react">
+                <img src="https://cdn4.iconfinder.com/data/icons/logos-3/600/React.js_logo-512.png" alt="React logo">
+                <span class="lang-name">React</span>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

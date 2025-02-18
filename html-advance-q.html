@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Advance</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+       * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: #0f0f1f;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    overflow-x: hidden;
+}
+
+.quiz-container {
+    background: rgba(202, 80, 46, 0.2);
+    width: 100%;
+    max-width: 800px;
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(227, 79, 38, 0.3);
+    position: relative;
+    margin: 1rem;
+    animation: containerEntry 0.8s ease-out;
+}
+
+@keyframes containerEntry {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.header-icon-html {
+    font-size: 2.5rem;
+    color: #e34f26;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 4px 6px rgba(227, 79, 38, 0.3));
+}
+
+.header h1 {
+    color: #e34f26;
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(227, 79, 38, 0.3);
+    border-radius: 4px;
+    margin: 1rem 0;
+}
+
+.progress {
+    height: 100%;
+    background: #e34f26;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.question-box {
+    margin: 1.5rem 0;
+}
+
+.question-number {
+    color: #e34f26;
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+    animation: slideInLeft 0.5s ease-out;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.question-text {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.4;
+    word-break: break-word;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.options-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.option {
+    background: rgba(177, 72, 43, 0.235);
+    padding: 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    display: flex;
+    align-items: center;
+    animation: optionEntry 0.5s ease-out;
+    animation-fill-mode: backwards;
+    position: relative;
+    overflow: hidden;
+}
+
+@keyframes optionEntry {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.option::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background: radial-gradient(circle, rgba(198, 77, 43, 0.63), transparent);
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.5s ease-out;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.option.selected::after {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.option:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(227, 79, 38, 0.3);
+    border-color: #e34f26;
+}
+
+.option-number {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #e34f26;
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.8rem;
+    flex-shrink: 0;
+    font-size: 0.9rem;
+}
+
+.option-text {
+    word-break: break-word;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.controls {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn {
+    background: #e34f26;
+    color: #000;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    animation: btnEntry 0.6s ease-out 0.2s backwards;
+}
+
+@keyframes btnEntry {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.btn:hover {
+    background: #e34f26;
+    transform: translateY(-2px);
+}
+
+.result-container {
+    text-align: center;
+    padding: 1.5rem;
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.result-score {
+    font-size: 2.5rem;
+    color: #e34f26;
+    margin: 1.5rem 0;
+    animation: scaleUp 0.5s ease-out 0.3s backwards;
+}
+
+@keyframes scaleUp {
+    from {
+        transform: scale(0);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+.result-text {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    animation: slideIn 0.5s ease-out 0.6s backwards;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@media (max-width: 480px) {
+    .quiz-container {
+        padding: 1rem;
+    }
+
+    .header h1 {
+        font-size: 1.6rem;
+    }
+
+    .question-text {
+        font-size: 1.1rem;
+    }
+
+    .option {
+        padding: 0.8rem;
+    }
+
+    .option-number {
+        width: 24px;
+        height: 24px;
+        font-size: 0.8rem;
+    }
+
+    .option-text {
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.9rem;
+    }
+
+    .result-score {
+        font-size: 2rem;
+    }
+
+    .result-text {
+        font-size: 1rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .options-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+    </style>
+</head>
+
+<body>
+    <div class="quiz-container">
+        <div class="header">
+            <i class="fab fa-html5 header-icon-html"></i>
+            <h1>Advance</h1>
+            <div class="progress-bar">
+                <div class="progress" style="width: 10%"></div>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <div class="question-number">Question <span id="current-question">1</span>/<span
+                    id="total-questions"></span></div>
+            <div class="question-text" id="question-text"></div>
+            <div class="options-grid" id="options-container"></div>
+        </div>
+
+        <div class="controls">
+            <button class="btn" id="next-btn" onclick="nextQuestion()">Next <i class="fas fa-arrow-right"></i></button>
+        </div>
+    </div>
+
+    <div class="quiz-container result-container" id="result-box" style="display: none;">
+        <h1>Quiz Completed! 🎉</h1>
+        <div class="result-score" id="final-score"></div>
+        <p class="result-text" id="result-text"></p>
+        <button class="btn" onclick="restartQuiz()"><i class="fas fa-redo"></i> Try Again</button>
+    </div>
+
+    <script>
+        // Add questions here - no limit!
+        const questions = [
+        {
+        "question": "Which HTML element is used to embed a video file?",
+        "options": ["&lt;video&gt;", "&lt;embed&gt;", "&lt;source&gt;", "&lt;object&gt;"],
+        "answer": "&lt;video&gt;"
+    },
+    {
+        "question": "What does the 'srcset' attribute in the &lt;img&gt; tag specify?",
+        "options": ["Image sources for different screen sizes", "Image format types", "Image resolutions", "Image loading priority"],
+        "answer": "Image sources for different screen sizes"
+    },
+    {
+        "question": "Which HTML element defines navigation links?",
+        "options": ["&lt;nav&gt;", "&lt;navigation&gt;", "&lt;link&gt;", "&lt;menu&gt;"],
+        "answer": "&lt;nav&gt;"
+    },
+    {
+        "question": "What is the purpose of the 'data-*' attribute in HTML5?",
+        "options": ["To store custom data", "To define data types", "To link to external data", "To format data presentation"],
+        "answer": "To store custom data"
+    },
+    {
+        "question": "Which HTML tag is used to define an interactive field where users can enter data?",
+        "options": ["&lt;form&gt;", "&lt;input&gt;", "&lt;textarea&gt;", "&lt;button&gt;"],
+        "answer": "&lt;input&gt;"
+    },
+    {
+        "question": "Which attribute specifies a description of an image in the &lt;img&gt; tag?",
+        "options": ["alt", "description", "title", "caption"],
+        "answer": "alt"
+    },
+    {
+        "question": "Which HTML element represents a container for external content?",
+        "options": ["&lt;iframe&gt;", "&lt;object&gt;", "&lt;embed&gt;", "&lt;link&gt;"],
+        "answer": "&lt;iframe&gt;"
+    },
+    {
+        "question": "What is the use of the 'action' attribute in the &lt;form&gt; tag?",
+        "options": ["Specifies the URL where the form data should be sent", "Specifies the HTTP method to be used", "Specifies the form data format", "Specifies the form submission style"],
+        "answer": "Specifies the URL where the form data should be sent"
+    },
+    {
+        "question": "Which HTML tag is used to define an internal style sheet?",
+        "options": ["&lt;style&gt;", "&lt;script&gt;", "&lt;link&gt;", "&lt;css&gt;"],
+        "answer": "&lt;style&gt;"
+    },
+    {
+        "question": "Which attribute is used to specify inline CSS styles in an HTML element?",
+        "options": ["style", "class", "id", "inline"],
+        "answer": "style"
+    },
+    {
+        "question": "Which HTML element defines a table header?",
+        "options": ["&lt;th&gt;", "&lt;tr&gt;", "&lt;td&gt;", "&lt;thead&gt;"],
+        "answer": "&lt;th&gt;"
+    },
+    {
+        "question": "Which attribute is used in the &lt;a&gt; tag to specify the URL of the page the link goes to?",
+        "options": ["href", "src", "link", "url"],
+        "answer": "href"
+    },
+    {
+        "question": "What is the purpose of the &lt;noscript&gt; tag in HTML?",
+        "options": ["To provide content for users with scripts disabled", "To disable scripting in the document", "To link to an external script file", "To include server-side scripts"],
+        "answer": "To provide content for users with scripts disabled"
+    },
+    {
+        "question": "Which attribute is used to define the relationship between a linked document and the current document in the &lt;link&gt; tag?",
+        "options": ["rel", "href", "type", "src"],
+        "answer": "rel"
+    },
+    {
+        "question": "What does the 'preload' attribute in the &lt;video&gt; tag do?",
+        "options": ["Specifies if the video should be loaded when the page loads", "Specifies the video format", "Specifies the video poster image", "Specifies the video playback speed"],
+        "answer": "Specifies if the video should be loaded when the page loads"
+    },
+    {
+        "question": "Which HTML element represents a section of the document intended for user input?",
+        "options": ["&lt;form&gt;", "&lt;input&gt;", "&lt;textarea&gt;", "&lt;button&gt;"],
+        "answer": "&lt;form&gt;"
+    },
+    {
+        "question": "Which attribute is used to specify multiple resources for an &lt;img&gt; tag?",
+        "options": ["srcset", "alt", "sizes", "src"],
+        "answer": "srcset"
+    },
+    {
+        "question": "Which element is used to define a clickable button in HTML?",
+        "options": ["&lt;button&gt;", "&lt;input&gt;", "&lt;a&gt;", "&lt;link&gt;"],
+        "answer": "&lt;button&gt;"
+    },
+    {
+        "question": "Which attribute in the &lt;a&gt; tag specifies where to open the linked document?",
+        "options": ["target", "href", "rel", "type"],
+        "answer": "target"
+    },
+    {
+        "question": "What is the use of the &lt;canvas&gt; element in HTML?",
+        "options": ["To draw graphics on the fly using JavaScript", "To embed videos", "To create forms", "To display text"],
+        "answer": "To draw graphics on the fly using JavaScript"
+    },
+    {
+        "question": "Which HTML element is used to define a list item?",
+        "options": ["&lt;li&gt;", "&lt;ul&gt;", "&lt;ol&gt;", "&lt;list&gt;"],
+        "answer": "&lt;li&gt;"
+    },
+    {
+        "question": "Which attribute is used to specify the media type in the &lt;link&gt; tag?",
+        "options": ["media", "type", "rel", "href"],
+        "answer": "media"
+    },
+    {
+        "question": "Which HTML element is used to specify a header for a section or page?",
+        "options": ["&lt;header&gt;", "&lt;section&gt;", "&lt;div&gt;", "&lt;head&gt;"],
+        "answer": "&lt;header&gt;"
+    },
+    {
+        "question": "What does the 'autoplay' attribute in the &lt;video&gt; tag do?",
+        "options": ["Starts the video playback automatically", "Loops the video", "Mutes the video", "Adds a poster image to the video"],
+        "answer": "Starts the video playback automatically"
+    },
+    {
+        "question": "Which attribute is used to specify the character encoding for an HTML document?",
+        "options": ["charset", "encoding", "type", "lang"],
+        "answer": "charset"
+    },
+    {
+        "question": "Which HTML element is used to specify a section of the document that contains navigation links?",
+        "options": ["&lt;nav&gt;", "&lt;header&gt;", "&lt;footer&gt;", "&lt;aside&gt;"],
+        "answer": "&lt;nav&gt;"
+    },
+    {
+        "question": "What is the purpose of the &lt;figure&gt; element in HTML?",
+        "options": ["To associate a caption with an image or video", "To define a form field", "To create a section header", "To embed external content"],
+        "answer": "To associate a caption with an image or video"
+    },
+    {
+        "question": "Which attribute is used to specify an image source in the &lt;img&gt; tag?",
+        "options": ["src", "alt", "href", "data"],
+        "answer": "src"
+    },
+    {
+        "question": "Which HTML tag is used to define a division or section in an HTML document?",
+        "options": ["&lt;div&gt;", "&lt;span&gt;", "&lt;section&gt;", "&lt;article&gt;"],
+        "answer": "&lt;div&gt;"
+    },
+    {
+        "question": "Which attribute is used to specify a unique identifier for an HTML element?",
+        "options": ["id", "class", "name", "key"],
+        "answer": "id"
+    }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let selectedOption = null;
+
+        // Initialize total questions display
+        document.getElementById('total-questions').textContent = questions.length;
+
+        function displayQuestion() {
+            const question = questions[currentQuestion];
+            document.getElementById('question-text').textContent = question.question;
+            document.getElementById('current-question').textContent = currentQuestion + 1;
+            document.querySelector('.progress').style.width =
+                `${((currentQuestion + 1) / questions.length) * 100}%`;
+
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.style.animationDelay = `${index * 0.1}s`;
+                optionElement.innerHTML = `
+                    <div class="option-number">${index + 1}</div>
+                    <div class="option-text">${option}</div>
+                `;
+                optionElement.onclick = () => selectOption(option, optionElement);
+                optionsContainer.appendChild(optionElement);
+            });
+
+            document.getElementById('next-btn').style.display = 'none';
+        }
+
+        function selectOption(selected, element) {
+            if (selectedOption) return;
+
+            selectedOption = selected;
+            element.classList.add('selected');
+            document.getElementById('next-btn').style.display = 'block';
+        }
+
+        function nextQuestion() {
+            const correctAnswer = questions[currentQuestion].answer;
+            if (selectedOption === correctAnswer) score++;
+
+            selectedOption = null;
+            currentQuestion++;
+
+            if (currentQuestion < questions.length) {
+                displayQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.querySelector('.quiz-container').style.display = 'none';
+            document.getElementById('result-box').style.display = 'block';
+            document.getElementById('final-score').textContent = `${score}/${questions.length}`;
+
+            const resultText = document.getElementById('result-text');
+            const percentage = (score / questions.length) * 100;
+
+            if (percentage === 100) {
+                resultText.textContent = "Perfect Score! 🏆";
+            } else if (percentage >= 80) {
+                resultText.textContent = "Excellent Work! 💪";
+            } else if (percentage >= 60) {
+                resultText.textContent = "Good Effort! 📚";
+            } else {
+                resultText.textContent = "Keep Practicing! 🚀";
+            }
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            selectedOption = null;
+            document.querySelector('.quiz-container').style.display = 'block';
+            document.getElementById('result-box').style.display = 'none';
+            displayQuestion();
+        }
+
+        // Start the quiz
+        displayQuestion();
+    </script>
+</body>
+
+</html>

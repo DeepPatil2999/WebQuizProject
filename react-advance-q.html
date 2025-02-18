@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+    <html lang="en">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>React Advance</title>
+        <link
+        href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+        rel="stylesheet"
+    />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <style>
+            * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+        background: #0f0f1f;
+        color: #fff;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 15px;
+        overflow-x: hidden;
+    }
+    
+    .quiz-container {
+        background: #5f97a599;
+        width: 100%;
+        max-width: 800px;
+        padding: 1.5rem;
+        border-radius: 15px;
+        box-shadow: 0 0 30px #5fa0b0c6;
+        position: relative;
+        margin: 1rem;
+        animation: containerEntry 0.8s ease-out;
+    }
+    
+    @keyframes containerEntry {
+        from {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+    
+    .header {
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+    
+    .header-icon-react {
+        font-size: 2.5rem;
+        color: #61DBFB;
+        margin-bottom: 10px;
+        filter: drop-shadow(0 4px 6px #5fa0b0de);
+    }
+    
+    .header h1 {
+        color: #61DBFB;
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .progress-bar {
+        width: 100%;
+        height: 6px;
+        background: #5fa0b0de;
+        border-radius: 4px;
+        margin: 1rem 0;
+    }
+    
+    .progress {
+        height: 100%;
+        background: #61DBFB;
+        border-radius: 4px;
+        transition: width 0.3s ease;
+    }
+    
+    .question-box {
+        margin: 1.5rem 0;
+    }
+    
+    .question-number {
+        color: #61DBFB;
+        font-size: 1rem;
+        margin-bottom: 0.8rem;
+        animation: slideInLeft 0.5s ease-out;
+    }
+    
+    @keyframes slideInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    .question-text {
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+        line-height: 1.4;
+        word-break: break-word;
+        animation: fadeInUp 0.6s ease-out;
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .options-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .option {
+        background: #5fa0b0de;
+        padding: 1rem;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        display: flex;
+        align-items: center;
+        animation: optionEntry 0.5s ease-out;
+        animation-fill-mode: backwards;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    @keyframes optionEntry {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .option::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 300%;
+        height: 300%;
+        background: radial-gradient(circle, #61c3dcde, transparent);
+        transform: translate(-50%, -50%) scale(0);
+        transition: transform 0.5s ease-out;
+        border-radius: 50%;
+        pointer-events: none;
+    }
+    
+    .option.selected::after {
+        transform: translate(-50%, -50%) scale(1);
+    }
+    
+    .option:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px #5fa0b0de;
+        border-color: #61DBFB;
+    }
+    
+    .option-number {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: #61DBFB;
+        color: #000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 0.8rem;
+        flex-shrink: 0;
+        font-size: 0.9rem;
+    }
+    
+    .option-text {
+        word-break: break-word;
+        font-size: 1rem;
+        line-height: 1.4;
+    }
+    
+    .controls {
+        display: flex;
+        justify-content: flex-end;
+    }
+    
+    .btn {
+        background: #61DBFB;
+        color: #000;
+        border: none;
+        padding: 0.8rem 1.5rem;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        animation: btnEntry 0.6s ease-out 0.2s backwards;
+    }
+    
+    @keyframes btnEntry {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .btn:hover {
+        background: #61DBFB;
+        transform: translateY(-2px);
+    }
+    
+    .result-container {
+        text-align: center;
+        padding: 1.5rem;
+        opacity: 0;
+        animation: fadeIn 1s ease-out forwards;
+    }
+    
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .result-score {
+        font-size: 2.5rem;
+        color: #61DBFB;
+        margin: 1.5rem 0;
+        animation: scaleUp 0.5s ease-out 0.3s backwards;
+    }
+    
+    @keyframes scaleUp {
+        from {
+            transform: scale(0);
+        }
+        to {
+            transform: scale(1);
+        }
+    }
+    
+    .result-text {
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+        animation: slideIn 0.5s ease-out 0.6s backwards;
+    }
+    
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .quiz-container {
+            padding: 1rem;
+        }
+    
+        .header h1 {
+            font-size: 1.6rem;
+        }
+    
+        .question-text {
+            font-size: 1.1rem;
+        }
+    
+        .option {
+            padding: 0.8rem;
+        }
+    
+        .option-number {
+            width: 24px;
+            height: 24px;
+            font-size: 0.8rem;
+        }
+    
+        .option-text {
+            font-size: 0.9rem;
+        }
+    
+        .btn {
+            padding: 0.7rem 1.2rem;
+            font-size: 0.9rem;
+        }
+    
+        .result-score {
+            font-size: 2rem;
+        }
+    
+        .result-text {
+            font-size: 1rem;
+        }
+    }
+    
+    @media (min-width: 768px) {
+        .options-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+        </style>
+    </head>
+    
+    <body>
+        <div class="quiz-container">
+            <div class="header">
+                <i class="ri-reactjs-line header-icon-react"></i>
+                <h1>Advance</h1>
+                <div class="progress-bar">
+                    <div class="progress" style="width: 10%"></div>
+                </div>
+            </div>
+    
+            <div class="question-box">
+                <div class="question-number">Question <span id="current-question">1</span>/<span
+                        id="total-questions"></span></div>
+                <div class="question-text" id="question-text"></div>
+                <div class="options-grid" id="options-container"></div>
+            </div>
+    
+            <div class="controls">
+                <button class="btn" id="next-btn" onclick="nextQuestion()">Next <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+    
+        <div class="quiz-container result-container" id="result-box" style="display: none;">
+            <h1>Quiz Completed! 🎉</h1>
+            <div class="result-score" id="final-score"></div>
+            <p class="result-text" id="result-text"></p>
+            <button class="btn" onclick="restartQuiz()"><i class="fas fa-redo"></i> Try Again</button>
+        </div>
+    
+        <script>
+            // Add questions here - no limit!
+            const questions = [
+            {
+        "question": "What are React portals?",
+        "options": ["A way to render children into a DOM node outside the parent component", "A CSS-in-JS library", "A state management tool", "A higher-order component"],
+        "answer": "A way to render children into a DOM node outside the parent component"
+    },
+    {
+        "question": "What is code splitting in React?",
+        "options": ["A way to split code into smaller bundles that can be loaded on demand", "A CSS technique", "A method to manage state", "A way to handle events"],
+        "answer": "A way to split code into smaller bundles that can be loaded on demand"
+    },
+    {
+        "question": "What is server-side rendering (SSR) in React?",
+        "options": ["Rendering components on the server and sending HTML to the client", "Rendering components on the client", "Rendering components on both server and client simultaneously", "Rendering components on the client and sending HTML to the server"],
+        "answer": "Rendering components on the server and sending HTML to the client"
+    },
+    {
+        "question": "What is static site generation (SSG) in React?",
+        "options": ["Generating static HTML pages at build time", "Generating dynamic HTML pages at runtime", "Generating CSS styles at build time", "Generating JavaScript bundles at runtime"],
+        "answer": "Generating static HTML pages at build time"
+    },
+    {
+        "question": "How do you manage global state in a React application?",
+        "options": ["Using Context API or state management libraries like Redux", "Using local state", "Using event handlers", "Using CSS-in-JS libraries"],
+        "answer": "Using Context API or state management libraries like Redux"
+    },
+    {
+        "question": "What is the use of the useImperativeHandle hook?",
+        "options": ["Customizing the instance value that is exposed when using refs", "Managing state", "Performing side effects", "Handling events"],
+        "answer": "Customizing the instance value that is exposed when using refs"
+    },
+    {
+        "question": "What is the purpose of the getDerivedStateFromProps lifecycle method?",
+        "options": ["To update state based on changes in props", "To handle events", "To manage side effects", "To create components"],
+        "answer": "To update state based on changes in props"
+    },
+    {
+        "question": "How do you optimize a React application for production?",
+        "options": ["Using tools like Webpack, Babel, and code splitting", "Using CSS optimizations", "Using JavaScript minification", "Using event handlers"],
+        "answer": "Using tools like Webpack, Babel, and code splitting"
+    },
+    {
+        "question": "What is the use of the useLayoutEffect hook?",
+        "options": ["To read layout from the DOM and synchronously re-render", "To manage state", "To handle events", "To create components"],
+        "answer": "To read layout from the DOM and synchronously re-render"
+    },
+    {
+        "question": "What are render props in React?",
+        "options": ["A technique for sharing code between components using a prop that is a function", "A CSS-in-JS library", "A state management tool", "A higher-order component"],
+        "answer": "A technique for sharing code between components using a prop that is a function"
+    },
+    {
+        "question": "How do you use the React.memo() function?",
+        "options": ["To memoize functional components and prevent unnecessary re-renders", "To manage state", "To handle events", "To perform side effects"],
+        "answer": "To memoize functional components and prevent unnecessary re-renders"
+    },
+    {
+        "question": "What is the purpose of the React Profiler API?",
+        "options": ["To measure the performance of React components", "To manage state", "To handle events", "To create components"],
+        "answer": "To measure the performance of React components"
+    },
+    {
+        "question": "How do you handle authentication in a React application?",
+        "options": ["Using libraries like Firebase, Auth0, or custom JWT authentication", "Using the useState hook", "Using the useEffect hook", "Using the useReducer hook"],
+        "answer": "Using libraries like Firebase, Auth0, or custom JWT authentication"
+    },
+    {
+        "question": "What is tree shaking in React?",
+        "options": ["A technique to eliminate dead code from the final bundle", "A CSS optimization technique", "A state management tool", "A way to handle events"],
+        "answer": "A technique to eliminate dead code from the final bundle"
+    },
+    {
+        "question": "What is the purpose of the useMemo hook?",
+        "options": ["To memoize expensive calculations and avoid recomputing them on every render", "To manage state", "To handle events", "To perform side effects"],
+        "answer": "To memoize expensive calculations and avoid recomputing them on every render"
+    },
+    {
+        "question": "How do you handle file uploads in a React application?",
+        "options": ["Using libraries like axios or FormData API", "Using the useState hook", "Using the useEffect hook", "Using the useReducer hook"],
+        "answer": "Using libraries like axios or FormData API"
+    },
+    {
+        "question": "What is the use of the useReducer hook?",
+        "options": ["To manage state with a reducer function", "To handle events", "To perform side effects", "To create components"],
+        "answer": "To manage state with a reducer function"
+    },
+    {
+        "question": "How do you handle server-side rendering (SSR) in React?",
+        "options": ["Using frameworks like Next.js", "Using the useState hook", "Using the useEffect hook", "Using the useReducer hook"],
+        "answer": "Using frameworks like Next.js"
+    },
+    {
+        "question": "What is the purpose of the componentWillUnmount lifecycle method?",
+        "options": ["To perform cleanup actions before the component is removed from the DOM", "To manage state", "To handle events", "To create CSS styles"],
+        "answer": "To perform cleanup actions before the component is removed from the DOM"
+    },
+    {
+        "question": "How do you optimize the rendering of a React component?",
+        "options": ["Using the React.memo() function", "Using the useState hook", "Using the useEffect hook", "Using the useReducer hook"],
+        "answer": "Using the React.memo() function"
+    },
+    {
+        "question": "What is prop drilling and how can it be avoided?",
+        "options": ["Passing props through multiple levels of components; it can be avoided using the context API", "Handling state in a parent component; it can be avoided using event listeners", "Managing events in child components; it can be avoided using state management libraries", "Creating CSS styles in parent components; it can be avoided using CSS-in-JS libraries"],
+        "answer": "Passing props through multiple levels of components; it can be avoided using the context API"
+    },
+    {
+        "question": "How do you handle errors in a React application?",
+        "options": ["Using error boundaries", "Using try/catch blocks", "Using event listeners", "Using state management libraries"],
+        "answer": "Using error boundaries"
+    },
+    {
+        "question": "What is the purpose of the React.StrictMode component?",
+        "options": ["To highlight potential problems in an application", "To manage state", "To handle events", "To create CSS styles"],
+        "answer": "To highlight potential problems in an application"
+    },
+    {
+        "question": "How do you create a class component in React?",
+        "options": ["Using the extends React.Component syntax", "Using the createComponent() method", "Using the React.createClass() method", "Using the componentDidMount() method"],
+        "answer": "Using the extends React.Component syntax"
+    },
+    {
+        "question": "What is the difference between a functional and a class component?",
+        "options": ["Functional components are stateless, class components can have state", "Class components are stateless, functional components can have state", "Both can have state", "Neither can have state"],
+        "answer": "Functional components are stateless, class components can have state"
+    },
+    {
+        "question": "How do you use Redux with React?",
+        "options": ["By connecting React components to the Redux store", "By using the useState hook", "By using the useEffect hook", "By using the useContext hook"],
+        "answer": "By connecting React components to the Redux store"
+    },
+    {
+        "question": "What is the purpose of the React.lazy() function?",
+        "options": ["To lazy load components", "To manage state", "To handle events", "To create components"],
+        "answer": "To lazy load components"
+    },
+    {
+        "question": "How do you handle conditional rendering in React?",
+        "options": ["Using JavaScript conditional statements", "Using CSS conditional statements", "Using HTML conditional statements", "Using event handlers"],
+        "answer": "Using JavaScript conditional statements"
+    }
+            ];
+    
+            let currentQuestion = 0;
+            let score = 0;
+            let selectedOption = null;
+    
+            // Initialize total questions display
+            document.getElementById('total-questions').textContent = questions.length;
+    
+            function displayQuestion() {
+                const question = questions[currentQuestion];
+                document.getElementById('question-text').textContent = question.question;
+                document.getElementById('current-question').textContent = currentQuestion + 1;
+                document.querySelector('.progress').style.width =
+                    `${((currentQuestion + 1) / questions.length) * 100}%`;
+    
+                const optionsContainer = document.getElementById('options-container');
+                optionsContainer.innerHTML = '';
+    
+                question.options.forEach((option, index) => {
+                    const optionElement = document.createElement('div');
+                    optionElement.className = 'option';
+                    optionElement.style.animationDelay = `${index * 0.1}s`;
+                    optionElement.innerHTML = `
+                        <div class="option-number">${index + 1}</div>
+                        <div class="option-text">${option}</div>
+                    `;
+                    optionElement.onclick = () => selectOption(option, optionElement);
+                    optionsContainer.appendChild(optionElement);
+                });
+    
+                document.getElementById('next-btn').style.display = 'none';
+            }
+    
+            function selectOption(selected, element) {
+                if (selectedOption) return;
+    
+                selectedOption = selected;
+                element.classList.add('selected');
+                document.getElementById('next-btn').style.display = 'block';
+            }
+    
+            function nextQuestion() {
+                const correctAnswer = questions[currentQuestion].answer;
+                if (selectedOption === correctAnswer) score++;
+    
+                selectedOption = null;
+                currentQuestion++;
+    
+                if (currentQuestion < questions.length) {
+                    displayQuestion();
+                } else {
+                    showResults();
+                }
+            }
+    
+            function showResults() {
+                document.querySelector('.quiz-container').style.display = 'none';
+                document.getElementById('result-box').style.display = 'block';
+                document.getElementById('final-score').textContent = `${score}/${questions.length}`;
+    
+                const resultText = document.getElementById('result-text');
+                const percentage = (score / questions.length) * 100;
+    
+                if (percentage === 100) {
+                    resultText.textContent = "Perfect Score! 🏆";
+                } else if (percentage >= 80) {
+                    resultText.textContent = "Excellent Work! 💪";
+                } else if (percentage >= 60) {
+                    resultText.textContent = "Good Effort! 📚";
+                } else {
+                    resultText.textContent = "Keep Practicing! 🚀";
+                }
+            }
+    
+            function restartQuiz() {
+                currentQuestion = 0;
+                score = 0;
+                selectedOption = null;
+                document.querySelector('.quiz-container').style.display = 'block';
+                document.getElementById('result-box').style.display = 'none';
+                displayQuestion();
+            }
+    
+            // Start the quiz
+            displayQuestion();
+        </script>
+    </body>
+    
+    </html></h1>

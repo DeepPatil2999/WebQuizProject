@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Beginner</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: #0f0f1f;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    overflow-x: hidden;
+}
+
+.quiz-container {
+    background: #d0bd2f58;
+    width: 100%;
+    max-width: 800px;
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 0 30px #d0bd2f7d;
+    position: relative;
+    animation: containerEntry 0.8s ease-out;
+}
+
+@keyframes containerEntry {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.header-icon-js {
+    font-size: 2.5rem;
+    color: #f7df1e;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 4px 6px #d0bd2f7d);
+}
+
+.header h1 {
+    color: #f7df1e;
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background: #d0bd2f7d;
+    border-radius: 4px;
+    margin: 1rem 0;
+}
+
+.progress {
+    height: 100%;
+    background: #f7df1e;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.question-box {
+    margin: 1.5rem 0;
+}
+
+.question-number {
+    color: #f7df1e;
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+    animation: slideInLeft 0.5s ease-out;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.question-text {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.4;
+    word-break: break-word;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.options-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.option {
+    background: #b4a4306d;
+    padding: 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    display: flex;
+    align-items: center;
+    animation: optionEntry 0.5s ease-out;
+    animation-fill-mode: backwards;
+    position: relative;
+    overflow: hidden;
+}
+
+@keyframes optionEntry {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.option::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background: radial-gradient(circle, #d0bd2f93, transparent);
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.5s ease-out;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.option.selected::after {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.option:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px #d0bd2f7d;
+    border-color: #f7df1e;
+}
+
+.option-number {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #f7df1e;
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.8rem;
+    flex-shrink: 0;
+    font-size: 0.9rem;
+}
+
+.option-text {
+    word-break: break-word;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.controls {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn {
+    background: #f7df1e;
+    color: #000;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    animation: btnEntry 0.6s ease-out 0.2s backwards;
+}
+
+@keyframes btnEntry {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.btn:hover {
+    background: #f7df1e;
+    transform: translateY(-2px);
+}
+
+.result-container {
+    text-align: center;
+    padding: 1.5rem;
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.result-score {
+    font-size: 2.5rem;
+    color: #f7df1e;
+    margin: 1.5rem 0;
+    animation: scaleUp 0.5s ease-out 0.3s backwards;
+}
+
+@keyframes scaleUp {
+    from {
+        transform: scale(0);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+.result-text {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    animation: slideIn 0.5s ease-out 0.6s backwards;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@media (max-width: 480px) {
+    .quiz-container {
+        padding: 1rem;
+    }
+
+    .header h1 {
+        font-size: 1.6rem;
+    }
+
+    .question-text {
+        font-size: 1.1rem;
+    }
+
+    .option {
+        padding: 0.8rem;
+    }
+
+    .option-number {
+        width: 24px;
+        height: 24px;
+        font-size: 0.8rem;
+    }
+
+    .option-text {
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.9rem;
+    }
+
+    .result-score {
+        font-size: 2rem;
+    }
+
+    .result-text {
+        font-size: 1rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .options-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+    </style>
+</head>
+
+<body>
+    <div class="quiz-container">
+        <div class="header">
+            <i class="fab fa-js header-icon-js"></i>
+            <h1>Beginer</h1>
+            <div class="progress-bar">
+                <div class="progress" style="width: 10%"></div>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <div class="question-number">Question <span id="current-question">1</span>/<span
+                    id="total-questions"></span></div>
+            <div class="question-text" id="question-text"></div>
+            <div class="options-grid" id="options-container"></div>
+        </div>
+
+        <div class="controls">
+            <button class="btn" id="next-btn" onclick="nextQuestion()">Next <i class="fas fa-arrow-right"></i></button>
+        </div>
+    </div>
+
+    <div class="quiz-container result-container" id="result-box" style="display: none;">
+        <h1>Quiz Completed! 🎉</h1>
+        <div class="result-score" id="final-score"></div>
+        <p class="result-text" id="result-text"></p>
+        <button class="btn" onclick="restartQuiz()"><i class="fas fa-redo"></i> Try Again</button>
+    </div>
+
+    <script>
+        // Add questions here - no limit!
+        const questions = [
+        {
+        "question": "Which statement is used to declare a variable in JavaScript?",
+        "options": ["var", "let", "const", "All of the above"],
+        "answer": "All of the above"
+    },
+    {
+        "question": "How do you create a function in JavaScript?",
+        "options": ["function myFunction()", "def myFunction()", "function:myFunction()", "create myFunction()"],
+        "answer": "function myFunction()"
+    },
+    {
+        "question": "Which symbol is used for comments in JavaScript?",
+        "options": ["//", "/*", "#", "// and /*"],
+        "answer": "// and /*"
+    },
+    {
+        "question": "How do you create an array in JavaScript?",
+        "options": ["var arr = []", "var arr = {}", "var arr = ()", "var arr = <>"],
+        "answer": "var arr = []"
+    },
+    {
+        "question": "Which method is used to add an element at the end of an array?",
+        "options": ["push()", "pop()", "shift()", "unshift()"],
+        "answer": "push()"
+    },
+    {
+        "question": "Which method is used to remove the last element from an array?",
+        "options": ["push()", "pop()", "shift()", "unshift()"],
+        "answer": "pop()"
+    },
+    {
+        "question": "How do you write a conditional statement in JavaScript?",
+        "options": ["if (condition) {}", "if condition then {}", "if condition: {}", "if {condition}"],
+        "answer": "if (condition) {}"
+    },
+    {
+        "question": "How do you write a loop in JavaScript?",
+        "options": ["for (i = 0; i < 5; i++) {}", "for i in range(5): {}", "for (i = 0; i < 5) {}", "for (i; i < 5; i++) {}"],
+        "answer": "for (i = 0; i < 5; i++) {}"
+    },
+    {
+        "question": "How do you create an object in JavaScript?",
+        "options": ["var obj = {}", "var obj = []", "var obj = ()", "var obj = <>"],
+        "answer": "var obj = {}"
+    },
+    {
+        "question": "Which method is used to add properties to an object?",
+        "options": ["obj.property = value", "obj->property = value", "obj.property(value)", "obj:property = value"],
+        "answer": "obj.property = value"
+    },
+    {
+        "question": "How do you access a property of an object?",
+        "options": ["obj.property", "obj[property]", "obj->property", "obj.property()"],
+        "answer": "obj.property"
+    },
+    {
+        "question": "How do you check if a property exists in an object?",
+        "options": ["property in obj", "obj.has(property)", "obj.exists(property)", "obj.contains(property)"],
+        "answer": "property in obj"
+    },
+    {
+        "question": "How do you create a string in JavaScript?",
+        "options": ["var str = 'text'", "var str = text", "var str = (text)", "var str = <text>"],
+        "answer": "var str = 'text'"
+    },
+    {
+        "question": "Which method is used to find the length of a string?",
+        "options": ["str.length", "str.size", "str.count", "str.index"],
+        "answer": "str.length"
+    },
+    {
+        "question": "Which method is used to convert a string to uppercase?",
+        "options": ["str.toUpperCase()", "str.upper()", "str.toUpper()", "str.toUppercase()"],
+        "answer": "str.toUpperCase()"
+    },
+    {
+        "question": "Which method is used to convert a string to lowercase?",
+        "options": ["str.toLowerCase()", "str.lower()", "str.toLower()", "str.toLowercase()"],
+        "answer": "str.toLowerCase()"
+    },
+    {
+        "question": "How do you find the index of a character in a string?",
+        "options": ["str.indexOf('a')", "str.find('a')", "str.index('a')", "str.search('a')"],
+        "answer": "str.indexOf('a')"
+    },
+    {
+        "question": "How do you concatenate strings in JavaScript?",
+        "options": ["str1 + str2", "str1 . str2", "str1 & str2", "str1 str2"],
+        "answer": "str1 + str2"
+    },
+    {
+        "question": "Which method is used to split a string into an array?",
+        "options": ["str.split()", "str.break()", "str.divide()", "str.slice()"],
+        "answer": "str.split()"
+    },
+    {
+        "question": "Which keyword is used to return a value from a function?",
+        "options": ["return", "give", "send", "output"],
+        "answer": "return"
+    },
+    {
+        "question": "Which statement is used to declare a constant in JavaScript?",
+        "options": ["const", "let", "var", "constant"],
+        "answer": "const"
+    },
+    {
+        "question": "Which function is used to parse a string to an integer?",
+        "options": ["parseInt()", "parseInteger()", "intParse()", "integerParse()"],
+        "answer": "parseInt()"
+    },
+    {
+        "question": "Which function is used to parse a string to a floating-point number?",
+        "options": ["parseFloat()", "parseFloatPoint()", "floatParse()", "floatingParse()"],
+        "answer": "parseFloat()"
+    },
+    {
+        "question": "How do you check if a value is NaN (Not a Number)?",
+        "options": ["isNaN(value)", "value.isNaN()", "value == NaN", "value === NaN"],
+        "answer": "isNaN(value)"
+    },
+    {
+        "question": "Which method is used to convert an array to a string?",
+        "options": ["arr.join()", "arr.toString()", "arr.convert()", "arr.string()"],
+        "answer": "arr.join()"
+    },
+    {
+        "question": "How do you remove the first element from an array?",
+        "options": ["shift()", "pop()", "unshift()", "removeFirst()"],
+        "answer": "shift()"
+    },
+    {
+        "question": "How do you add an element at the beginning of an array?",
+        "options": ["unshift()", "push()", "shift()", "insert()"],
+        "answer": "unshift()"
+    },
+    {
+        "question": "Which method is used to find the index of an element in an array?",
+        "options": ["indexOf()", "findIndex()", "searchIndex()", "locateIndex()"],
+        "answer": "indexOf()"
+    },
+    {
+        "question": "Which method is used to remove elements from an array?",
+        "options": ["splice()", "slice()", "cut()", "remove()"],
+        "answer": "splice()"
+    },
+    {
+        "question": "Which method is used to create a new array from an existing array?",
+        "options": ["map()", "reduce()", "filter()", "slice()"],
+        "answer": "slice()"
+    }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let selectedOption = null;
+
+        // Initialize total questions display
+        document.getElementById('total-questions').textContent = questions.length;
+
+        function displayQuestion() {
+            const question = questions[currentQuestion];
+            document.getElementById('question-text').textContent = question.question;
+            document.getElementById('current-question').textContent = currentQuestion + 1;
+            document.querySelector('.progress').style.width =
+                `${((currentQuestion + 1) / questions.length) * 100}%`;
+
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.style.animationDelay = `${index * 0.1}s`;
+                optionElement.innerHTML = `
+                    <div class="option-number">${index + 1}</div>
+                    <div class="option-text">${option}</div>
+                `;
+                optionElement.onclick = () => selectOption(option, optionElement);
+                optionsContainer.appendChild(optionElement);
+            });
+
+            document.getElementById('next-btn').style.display = 'none';
+        }
+
+        function selectOption(selected, element) {
+            if (selectedOption) return;
+
+            selectedOption = selected;
+            element.classList.add('selected');
+            document.getElementById('next-btn').style.display = 'block';
+        }
+
+        function nextQuestion() {
+            const correctAnswer = questions[currentQuestion].answer;
+            if (selectedOption === correctAnswer) score++;
+
+            selectedOption = null;
+            currentQuestion++;
+
+            if (currentQuestion < questions.length) {
+                displayQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.querySelector('.quiz-container').style.display = 'none';
+            document.getElementById('result-box').style.display = 'block';
+            document.getElementById('final-score').textContent = `${score}/${questions.length}`;
+
+            const resultText = document.getElementById('result-text');
+            const percentage = (score / questions.length) * 100;
+
+            if (percentage === 100) {
+                resultText.textContent = "Perfect Score! 🏆";
+            } else if (percentage >= 80) {
+                resultText.textContent = "Excellent Work! 💪";
+            } else if (percentage >= 60) {
+                resultText.textContent = "Good Effort! 📚";
+            } else {
+                resultText.textContent = "Keep Practicing! 🚀";
+            }
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            selectedOption = null;
+            document.querySelector('.quiz-container').style.display = 'block';
+            document.getElementById('result-box').style.display = 'none';
+            displayQuestion();
+        }
+
+        // Start the quiz
+        displayQuestion();
+    </script>
+</body>
+
+</html>
