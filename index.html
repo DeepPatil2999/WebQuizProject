@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code Mastery Quiz</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #0a0a0a;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden; /* Prevent scrollbars */
+    }
+
+    .landing-page {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 90%;
+      max-width: 1200px;
+      min-height: 90vh;
+      padding: 40px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 20px;
+      animation: fadeIn 1s ease-in;
+    }
+
+    .header-icon-html {
+    font-size: 3.5rem; /* Reduced icon size */
+    color: #e34f26;
+    margin-bottom: 15px; /* Reduced margin */
+    filter: drop-shadow(0 4px 6px rgba(227, 79, 38, 0.3));
+}
+
+.header-icon-css {
+    font-size: 4rem;
+    color: #2965f1;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 4px 6px #2856c073);
+}
+
+.header-icon-js {
+    font-size: 4rem;
+    color: #f7df1e;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 4px 6px #d0bd2f7d);
+}
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .content-left {
+      flex: 1;
+      padding-right: 40px;
+    }
+
+    header h1 {
+      font-size: 3.5rem;
+      margin-bottom: 25px;
+      line-height: 1.2;
+    }
+
+    header h1 span {
+      color: #2e8b57;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      color: #aaa;
+      margin-bottom: 35px;
+      line-height: 1.6;
+    }
+
+    button {
+      background: #2e8b57;
+      color: #fff;
+      border: none;
+      padding: 15px 40px;
+      font-size: 1.1rem;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: #3cb371;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(46, 139, 87, 0.3);
+    }
+
+    .content-right {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    .icon-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .icon {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 15px;
+      padding: 20px;
+      transition: all 0.3s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .icon i {
+      font-size: 4rem;
+      transition: transform 0.3s ease;
+    }
+
+    .icon:hover {
+      background: rgba(46, 139, 87, 0.1);
+      transform: translateY(-5px);
+    }
+
+    .icon:hover i {
+      transform: scale(1.1);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .landing-page {
+        flex-direction: column;
+        min-height: auto;
+        padding: 30px 20px;
+        margin: 20px 0;
+      }
+
+      .content-left {
+        padding-right: 0;
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      header h1 {
+        font-size: 2.5rem;
+      }
+
+      header p {
+        font-size: 1rem;
+      }
+
+      .content-right {
+        display: none; /* Hide icons on smartphones */
+      }
+    }
+
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 2rem;
+      }
+
+      header p {
+        font-size: 0.9rem;
+      }
+
+      button {
+        padding: 12px 30px;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="landing-page">
+    <div class="content-left">
+      <header>
+        <h1>Master the <span>Web Development</span></h1>
+        <p>Test your skills in HTML, CSS, and JavaScript. Challenge yourself and become a coding expert!</p>
+        <button class="gs-button">Get Started</button>
+      </header>
+    </div>
+
+    <div class="content-right">
+      <div class="icon-container">
+        <div class="icon">
+          <i class="fab fa-html5 header-icon-html"></i>
+        </div>
+        <div class="icon">
+          <i class="fab fa-css3 header-icon-css"></i>
+        </div>
+        <div class="icon">
+          <i class="fab fa-js header-icon-js"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
